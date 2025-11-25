@@ -1,1 +1,1 @@
-{ "name": "bsi-ai", "version": "0.0.0", "private": true, "scripts": { "deploy": "wrangler deploy" } }
+{ "name": "BSI-AI", "version": "0.0.0", "private": true, "scripts": { "deploy": "wrangler deploy" } }
