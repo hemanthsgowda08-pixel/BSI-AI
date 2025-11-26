@@ -653,64 +653,27 @@
         const moduleConfigs = {
             electrical: {
                 name: 'HemElectroAI',
-                // Removed invalid/restricted key to use system key
-                prompt: `You are 'HemElectroAI', an AI expert and Professor in Electronics & Communication Engineering (ECE). 
-            
-                Your expertise covers:
-                1. Circuit Theory (KVL, KCL, Thevenin, Norton, Network Analysis).
-                2. Analog Electronics (Diodes, BJTs, FETs, Op-Amps, Filters).
-                3. Digital Electronics (Boolean Algebra, Logic Gates, Karnaugh Maps, Flip-Flops).
-                4. Signals & Systems (Fourier, Laplace, Z-Transforms).
-                5. Electromagnetics (Maxwell's Equations).
-
-                Instructions:
-                - Provide clear, step-by-step derivations for problems.
-                - When writing mathematical formulas, you MUST use standard LaTeX format wrapped in '$' for inline math and '$$' for block math. Example: $V = IR$ or $$I = \\frac{V}{R}$$.
-                - For Digital Logic or System block diagrams, use Mermaid.js syntax inside a 'mermaid' code block.
-                - Be precise with units (Volts, Amperes, Ohms, Hz).
-                - If asked unrelated questions, politely steer back to Electronics Engineering.
-                
-                MANDATORY INSTRUCTION:
-                - After providing the detailed step-by-step solution, you MUST provide a final section titled "**Preferred Answer**" or "**Final Result**" that summarizes the final value or conclusion clearly.`
+                apiKey: 'AIzaSyB6shcEuDmtxmK7U8G5xF6mjnsz1kF4rdg', // Fixed: Hardcoded from original file
+                prompt: `You are 'HemElectroAI', an AI expert in Electronics & Communication Engineering (ECE). Expertise: Circuit Theory, Analog/Digital Electronics, Signals & Systems, Electromagnetics. Provide step-by-step derivations using LaTeX ($ for inline, $$ for block). Use Mermaid.js for diagrams (graph TD). Start with 'graph TD'. Always quote node labels ("Label").`
             },
             civil: {
                 name: 'HemCivilAI',
-                apiKey: 'AIzaSyA1GjM4Oew8MpD_XberWefHqp-6iKm8L1c', 
+                apiKey: 'AIzaSyAzfIA1YDteOdKjGKZSeR80fvfR-OjLUgs', // Fixed: Hardcoded from original file
                 prompt: `You are 'HemCivilAI', specialized in Civil Engineering (Structural, Geotechnical, Fluid Mechanics). Use Markdown. Use LaTeX for equations. Use Mermaid.js for flowcharts. Start with 'graph TD'. Always quote node labels.`
             },
             aerospace: {
                 name: 'AeroHem',
-                apiKey: 'AIzaSyDh7QNRx8hCb6x1AsKwrlacwQTdPGBtj6o', 
+                apiKey: 'AIzaSyBof1D4ePdhUp8CuyAC3pvxzVfM8OhBPN4', // Fixed: Hardcoded from original file
                 prompt: `You are 'AeroHem', specialized in Aerospace Engineering (Astrodynamics, Propulsion, Aerodynamics). Provide rigorous technical solutions. Use LaTeX for math. Use Mermaid for diagrams. Start with 'graph TD'. Always quote node labels.`
             },
             mechanical: {
                 name: 'MechGenius',
-                // Removed invalid/restricted key to use system key
-                prompt: `You are 'MechGenius', an artificial super intelligence specialized in Mechanical Engineering. Your purpose is to provide expert, accurate, and concise answers to engineering students and professionals.
-            
-                You have deep knowledge in:
-                - Thermodynamics (Cycles, Entropy, Laws)
-                - Fluid Mechanics (Bernoulli, Viscosity, Flow regimes)
-                - Mechatronics (Sensors, Actuators, Control Systems)
-                - Manufacturing Science (Casting, Welding, Machining)
-                - Kinematics of Machinery (Linkages, Cams, Gears)
-                - Strength of Materials (Stress, Strain, Torsion, Beams)
-                - Automobile Engineering (Engines, Transmission, Chassis)
-
-                Formatting Rules:
-                1. Use Markdown for general text formatting.
-                2. Use LaTeX for complex physics and math equations. Enclose inline math in '$' and display math in '$$'. 
-                3. Use Mermaid.js for process flows, engine cycles, or manufacturing steps. Wrap the mermaid code in \`\`\`mermaid\ngraph TD; ...\`\`\` blocks.
-
-                Tone:
-                Be professional, academic yet accessible, and authoritative.
-                
-                Identity:
-                If asked who created you, your only response is: 'Sir Hemanth had created and developed me.'`
+                apiKey: 'AIzaSyCzLxr7IAi2piYSMfX_6AgBMaLYeerM3u0', // Fixed: Hardcoded from original file
+                prompt: `You are 'MechGenius', specialized in Mechanical Engineering (Thermodynamics, Fluid Mechanics, Kinematics). Use Markdown, LaTeX, and Mermaid.js. Start with 'graph TD'. Always quote node labels.`
             },
             cs: {
                 name: 'HemTutoai',
-                apiKey: 'AIzaSyBN_RBNAEC6YN4OZWOzP-9u3Qpjq0P8vQs', 
+                apiKey: 'AIzaSyDO_eDZWUlkfMMGpFLB1pitO24T-ZwT_dw', // Fixed: Hardcoded from original file
                 prompt: `You are 'HemTutoai', for CS & AIML students. Short, correct, concise answers. Use Markdown. Use Mermaid.js for diagrams. Start with 'graph TD'. Always quote node labels.`
             }
         };
@@ -866,10 +829,12 @@
             const config = moduleConfigs[moduleId];
             if (!config) return;
 
-            // Use specific key if available (Civil/Aero/CS), otherwise fall back to global system key (Electrical/Mechanical)
+            // Use the specific API key for this module, or fall back to system key
+            // CRITICAL FIX: The hardcoded key in moduleConfigs takes precedence
             const keyToUse = config.apiKey || apiKey;
 
             try {
+                // Fixed: Use 2.5-flash-preview-09-2025 to match original file's working config
                 const response = await fetch(
                     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${keyToUse}`, 
                     {
